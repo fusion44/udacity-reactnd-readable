@@ -1,9 +1,13 @@
 import { RECEIVE_POSTS, ADD_POST } from "../actions"
 
-function posts(state = {}, action) {
+function posts(state = [], action) {
   switch (action.type) {
     case RECEIVE_POSTS:
-      return state
+      const { posts } = action
+      return {
+        ...state,
+        posts
+      }
     case ADD_POST:
       //const { post } = action
       return state
