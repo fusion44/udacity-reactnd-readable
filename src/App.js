@@ -4,70 +4,68 @@ import "./App.css"
 import AppBar from "material-ui/AppBar"
 import Tabs, { Tab } from "material-ui/Tabs"
 import PostList from "./components/PostList"
-import { fetchCategories, fetchPosts } from "./actions"
+import { setCategory, fetchCategories, fetchPosts } from "./actions"
 
 class App extends Component {
-  state = {
-    value: 0
-  }
-
   componentDidMount() {
     this.props.dispatch(fetchCategories())
     this.props.dispatch(fetchPosts())
   }
 
   handleChange(event, value) {
-    this.setState({ value })
+    this.props.dispatch(setCategory(value))
   }
 
-  getPosts(category, posts) {
-    // Since we have a fixed number of categories we can get away with hardcoding
-    // the values here
-    let stringval = "udacity"
-    if (category === 1) {
-      stringval = "react"
-    } else if (category === 2) {
-      stringval = "redux"
+  getPosts(current, posts) {
+    if (current === "all") {
+      return posts
+    } else {
+      return posts.filter(post => {
+        return post.category === current
+      })
     }
-
-    return posts.filter(post => {
-      return post.category === stringval
-    })
   }
 
   genTabs() {
     const { categories } = this.props.categories
     if (!categories) {
-      return <Tab label="loading" />
+      return <Tab value="all" label="loading" />
     } else {
       let cats = []
-      cats.push(<Tab label="All" key="0" />)
+      cats.push(<Tab value="all" label="All" key="0" />)
       cats.push(
-        categories.map((cat, index) => <Tab label={cat.name} key={index + 1} />)
+        categories.map((cat, index) => (
+          <Tab value={cat.name} label={cat.name} key={index + 1} />
+        ))
       )
       return cats
     }
   }
 
-  render() {
-    const { value } = this.state
+  genPostsList() {
+    const { current } = this.props.categories
     const { posts } = this.props.posts
+    if (!posts) {
+      return <h1>Loading!</h1>
+    } else {
+      return <PostList posts={this.getPosts(current, posts)} />
+    }
+  }
+
+  render() {
     return (
       <div className="App">
         <AppBar position="static">
           <Tabs
             centered
             fullWidth
-            value={value}
+            value={this.props.categories.current}
             onChange={this.handleChange.bind(this)}
           >
             {this.genTabs()}
           </Tabs>
         </AppBar>
-        {value === 0 && <PostList posts={posts} />}
-        {value === 1 && <PostList posts={this.getPosts(value, posts)} />}
-        {value === 2 && <PostList posts={this.getPosts(value, posts)} />}
-        {value === 3 && <PostList posts={this.getPosts(value, posts)} />}
+        {this.genPostsList()}
       </div>
     )
   }

@@ -1,7 +1,9 @@
 import {
   RECEIVE_CATEGORIES,
+  SET_CATEGORY,
   receiveCategories,
-  fetchCategories
+  fetchCategories,
+  setCategory
 } from "./categories"
 
 import { ADD_COMMENT, addComment } from "./comments"
@@ -17,8 +19,10 @@ import {
 export {
   // Categories
   RECEIVE_CATEGORIES,
+  SET_CATEGORY,
   receiveCategories,
-  fetchCategories
+  fetchCategories,
+  setCategory
 }
 
 export {
