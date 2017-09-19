@@ -1,10 +1,12 @@
 import React from "react"
 import { withStyles } from "material-ui/styles"
-import Card, { CardActions, CardContent } from "material-ui/Card"
+import Card, { CardContent } from "material-ui/Card"
 import Icon from "material-ui/Icon"
-import Button from "material-ui/Button"
 
 const styles = theme => ({
+  h1: {
+    color: "grey"
+  },
   card: {
     marginTop: 20,
     margin: "auto",
@@ -19,12 +21,11 @@ const CategoryNotFoundError = props => {
     <div>
       <Card className={props.classes.card}>
         <CardContent>
-          <h1>Unknown Category</h1>
-          <Icon style={{ fontSize: 100 }}>sentiment_neutral</Icon>
+          <h1 className={props.classes.h1}>Unknown Category</h1>
+          <Icon color="disabled" style={{ fontSize: 200 }}>
+            sentiment_neutral
+          </Icon>
         </CardContent>
-        <CardActions>
-          <Button dense>Show All</Button>
-        </CardActions>
       </Card>
     </div>
   )
