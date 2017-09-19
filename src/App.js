@@ -4,16 +4,24 @@ import "./App.css"
 import AppBar from "material-ui/AppBar"
 import Tabs, { Tab } from "material-ui/Tabs"
 import PostList from "./components/PostList"
+import CategoryNotFoundError from "./components/CategoryNotFoundError"
 import { setCategory, fetchCategories, fetchPosts } from "./actions"
 
 class App extends Component {
   componentDidMount() {
+    const { category } = this.props.match.params
     this.props.dispatch(fetchCategories())
     this.props.dispatch(fetchPosts())
+
+    if (this.props.match.path !== "/") {
+      this.props.dispatch(setCategory(category))
+    }
   }
 
   handleChange(event, value) {
     this.props.dispatch(setCategory(value))
+    let url = value === "all" ? "/" : "/" + value
+    this.props.history.push(url)
   }
 
   getPosts(current, posts) {
@@ -53,6 +61,7 @@ class App extends Component {
   }
 
   render() {
+    const { showCategoryError } = this.props.categories
     return (
       <div className="App">
         <AppBar position="static">
@@ -65,7 +74,7 @@ class App extends Component {
             {this.genTabs()}
           </Tabs>
         </AppBar>
-        {this.genPostsList()}
+        {showCategoryError ? <CategoryNotFoundError /> : this.genPostsList()}
       </div>
     )
   }
