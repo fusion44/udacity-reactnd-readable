@@ -45,10 +45,10 @@ const Comment = props => {
             {Moment.unix(comment.timestamp / 1000).format("LL")}
           </div>
           <div className={classes.flexGrow} />
-          <div className={classes.headerText}>Votes: {comment.voteScore}</div>
           <IconButton className={classes.thumb} aria-label="Upvote">
             <ThumbUp />
           </IconButton>
+          <div className={classes.headerText}>Votes: {comment.voteScore}</div>
           <IconButton className={classes.thumb} aria-label="Downvote">
             <ThumbDown />
           </IconButton>
