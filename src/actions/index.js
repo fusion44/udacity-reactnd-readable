@@ -6,7 +6,12 @@ import {
   setCategory
 } from "./categories"
 
-import { ADD_COMMENT, addComment } from "./comments"
+import {
+  RECEIVE_COMMENTS,
+  ADD_COMMENT,
+  addComment,
+  fetchComments
+} from "./comments"
 
 import {
   RECEIVE_POSTS,
@@ -36,6 +41,8 @@ export {
 
 export {
   // comments
+  RECEIVE_COMMENTS,
   ADD_COMMENT,
-  addComment
+  addComment,
+  fetchComments
 }
