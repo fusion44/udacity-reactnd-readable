@@ -5,9 +5,7 @@ import Paper from "material-ui/Paper"
 import Typography from "material-ui/Typography"
 import Divider from "material-ui/Divider"
 import Grid from "material-ui/Grid"
-import IconButton from "material-ui/IconButton"
-import ThumbUp from "material-ui-icons/ThumbUp"
-import ThumbDown from "material-ui-icons/ThumbDown"
+import Voter from "./Voter"
 import Moment from "moment"
 
 const styles = theme => ({
@@ -34,6 +32,14 @@ const styles = theme => ({
   }
 })
 
+const handleUpVote = () => {
+  console.log("up")
+}
+
+const handleDownVote = () => {
+  console.log("down")
+}
+
 const Comment = props => {
   const { classes, comment } = props
   return (
@@ -45,13 +51,11 @@ const Comment = props => {
             {Moment.unix(comment.timestamp / 1000).format("LL")}
           </div>
           <div className={classes.flexGrow} />
-          <IconButton className={classes.thumb} aria-label="Upvote">
-            <ThumbUp />
-          </IconButton>
-          <div className={classes.headerText}>Votes: {comment.voteScore}</div>
-          <IconButton className={classes.thumb} aria-label="Downvote">
-            <ThumbDown />
-          </IconButton>
+          <Voter
+            upVote={handleUpVote}
+            downVote={handleDownVote}
+            score={comment.voteScore}
+          />
         </Grid>
         <Divider light />
         <Typography type="body1" component="p">

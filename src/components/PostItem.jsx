@@ -10,8 +10,7 @@ import ExpandMoreIcon from "material-ui-icons/ExpandMore"
 import Collapse from "material-ui/transitions/Collapse"
 import classnames from "classnames"
 import Comment from "./Comment"
-import ThumbUp from "material-ui-icons/ThumbUp"
-import ThumbDown from "material-ui-icons/ThumbDown"
+import Voter from "./Voter"
 import Moment from "moment"
 
 const styles = theme => ({
@@ -40,10 +39,6 @@ const styles = theme => ({
   },
   flexGrow: {
     flex: "1 1 auto"
-  },
-  thumb: {
-    width: 20,
-    height: 20
   }
 })
 
@@ -73,6 +68,14 @@ class PostItem extends Component {
     }
   }
 
+  handleUpVote() {
+    console.log("up")
+  }
+
+  handleDownVote() {
+    console.log("down")
+  }
+
   render() {
     const { classes, post, numComments } = this.props
     return (
@@ -91,13 +94,11 @@ class PostItem extends Component {
           <CardActions>
             <Button dense>Learn More</Button>
             <div className={classes.flexGrow} />
-            <IconButton className={classes.thumb} aria-label="Upvote">
-              <ThumbUp />
-            </IconButton>
-            <div>Votes: {post.voteScore}</div>
-            <IconButton className={classes.thumb} aria-label="Downvote">
-              <ThumbDown />
-            </IconButton>
+            <Voter
+              upVote={this.handleUpVote}
+              downVote={this.handleDownVote}
+              score={post.voteScore}
+            />
             <div>Comments: {numComments}</div>
             <IconButton
               className={classnames(classes.expand, {
