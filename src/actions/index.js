@@ -21,6 +21,8 @@ import {
   fetchPosts
 } from "./posts"
 
+import { SET_SORT, setSort } from "./local.js"
+
 export {
   // Categories
   RECEIVE_CATEGORIES,
@@ -45,4 +47,10 @@ export {
   ADD_COMMENT,
   addComment,
   fetchComments
+}
+
+export {
+  // local
+  SET_SORT,
+  setSort
 }
