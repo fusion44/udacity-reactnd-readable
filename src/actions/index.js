@@ -15,10 +15,15 @@ import {
 
 import {
   RECEIVE_POSTS,
+  RECEIVE_POST,
   ADD_POST,
+  UPDATE_POST,
   receivePosts,
+  receivePost,
   addPost,
-  fetchPosts
+  fetchPosts,
+  fetchPost,
+  updatePost
 } from "./posts"
 
 import { SET_SORT, setSort } from "./local.js"
@@ -35,10 +40,15 @@ export {
 export {
   // Posts
   RECEIVE_POSTS,
+  RECEIVE_POST,
   ADD_POST,
+  UPDATE_POST,
   receivePosts,
+  receivePost,
   addPost,
-  fetchPosts
+  fetchPosts,
+  fetchPost,
+  updatePost
 }
 
 export {

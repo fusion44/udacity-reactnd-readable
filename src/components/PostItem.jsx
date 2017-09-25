@@ -1,5 +1,7 @@
 import React, { Component } from "react"
+import PropTypes from "prop-types"
 import { connect } from "react-redux"
+import { Link } from "react-router-dom"
 import { withStyles } from "material-ui/styles"
 import Card, { CardActions, CardContent } from "material-ui/Card"
 import Button from "material-ui/Button"
@@ -47,6 +49,9 @@ class PostItem extends Component {
 
   componentDidMount() {
     this.props.dispatch(fetchComments(this.props.post.id))
+    if (this.props.isDetail !== undefined && this.props.isDetail === true) {
+      this.setState({ expanded: true })
+    }
   }
 
   handleExpandClick() {
@@ -77,7 +82,7 @@ class PostItem extends Component {
   }
 
   render() {
-    const { classes, post, numComments } = this.props
+    const { classes, post, numComments, isDetail } = this.props
     return (
       <div>
         <Card className={classes.card}>
@@ -92,7 +97,13 @@ class PostItem extends Component {
             <Typography component="p">{post.body}</Typography>
           </CardContent>
           <CardActions>
-            <Button dense>Learn More</Button>
+            {isDetail ? (
+              undefined
+            ) : (
+              <Button dense>
+                <Link to={"/" + post.category + "/" + post.id}>Details</Link>
+              </Button>
+            )}
             <div className={classes.flexGrow} />
             <Voter
               upVote={this.handleUpVote}
@@ -134,6 +145,12 @@ function mapStateToProps({ comments }, ownProps) {
     comments: comments.comments[ownProps.post.id],
     numComments
   }
+}
+
+PostItem.propTypes = {
+  isDetail: PropTypes.bool,
+  post: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 }
 
 let PI = withStyles(styles)(PostItem)
