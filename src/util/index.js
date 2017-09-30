@@ -1,24 +1,17 @@
+const URL = "http://localhost:3001"
+
 const headers = {
   Authorization: "whatever-you-want"
 }
 
-export const fetchCategories = () =>
-  fetch("http://localhost:3001/categories", {
-    headers: { Authorization: "whatever-you-want" }
-  })
+export const fetchCategories = () => fetch(`${URL}/categories`, { headers })
 
-export const fetchPosts = () =>
-  fetch("http://localhost:3001/posts", {
-    headers: { Authorization: "whatever-you-want" }
-  })
+export const fetchPosts = () => fetch(`${URL}/posts`, { headers })
 
-export const fetchPost = postID =>
-  fetch("http://localhost:3001/posts/" + postID, {
-    headers: { Authorization: "whatever-you-want" }
-  })
+export const fetchPost = postID => fetch(`${URL}/posts/${postID}`, { headers })
 
 export const updatePost = post => {
-  return fetch(`http://localhost:3001/posts/${post.id}`, {
+  return fetch(`${URL}/posts/${post.id}`, {
     method: "PUT",
     headers: {
       ...headers,
@@ -29,6 +22,4 @@ export const updatePost = post => {
 }
 
 export const fetchComments = postId =>
-  fetch("http://localhost:3001/posts/" + postId + "/comments", {
-    headers: { Authorization: "whatever-you-want" }
-  })
+  fetch(`${URL}/posts/${postId}/comments`, { headers })
