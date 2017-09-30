@@ -3,7 +3,6 @@ import * as Util from "../util"
 export const RECEIVE_POSTS = "RECEIVE_POSTS"
 export const RECEIVE_POST = "RECEIVE_POST"
 export const ADD_POST = "ADD_POST"
-export const UPDATE_POST = "UPDATE_POST"
 
 export const receivePosts = posts => ({
   type: RECEIVE_POSTS,

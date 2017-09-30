@@ -17,7 +17,6 @@ import {
   RECEIVE_POSTS,
   RECEIVE_POST,
   ADD_POST,
-  UPDATE_POST,
   receivePosts,
   receivePost,
   addPost,
@@ -26,7 +25,15 @@ import {
   updatePost
 } from "./posts"
 
-import { SET_SORT, setSort } from "./local.js"
+import {
+  SET_SORT,
+  SET_EDIT_POST,
+  SET_EDITED_POST_CONTENT,
+  setSort,
+  setEditPost,
+  setEditedPostContent,
+  putEditPost
+} from "./local.js"
 
 export {
   // Categories
@@ -42,7 +49,6 @@ export {
   RECEIVE_POSTS,
   RECEIVE_POST,
   ADD_POST,
-  UPDATE_POST,
   receivePosts,
   receivePost,
   addPost,
@@ -62,5 +68,10 @@ export {
 export {
   // local
   SET_SORT,
-  setSort
+  SET_EDIT_POST,
+  SET_EDITED_POST_CONTENT,
+  setSort,
+  setEditPost,
+  setEditedPostContent,
+  putEditPost
 }

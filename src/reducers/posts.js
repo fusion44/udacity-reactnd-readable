@@ -1,4 +1,4 @@
-import { RECEIVE_POST, RECEIVE_POSTS, ADD_POST, UPDATE_POST } from "../actions"
+import { RECEIVE_POST, RECEIVE_POSTS, ADD_POST } from "../actions"
 
 function posts(state = { posts: [], postMap: {} }, action) {
   switch (action.type) {
@@ -28,9 +28,6 @@ function posts(state = { posts: [], postMap: {} }, action) {
       }
     case ADD_POST:
       //const { post } = action
-      return state
-    case UPDATE_POST:
-      console.log("Receiver: updatePost")
       return state
     default:
       return state

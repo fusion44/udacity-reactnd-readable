@@ -5,6 +5,7 @@ import { Link } from "react-router-dom"
 import { withStyles } from "material-ui/styles"
 import Card, { CardActions, CardContent } from "material-ui/Card"
 import Button from "material-ui/Button"
+import TextField from "material-ui/TextField"
 import Typography from "material-ui/Typography"
 import { fetchComments } from "../actions"
 import IconButton from "material-ui/IconButton"
@@ -82,19 +83,47 @@ class PostItem extends Component {
   }
 
   render() {
-    const { classes, post, numComments, isDetail } = this.props
+    const {
+      classes,
+      post,
+      numComments,
+      isDetail,
+      edit,
+      edited_post
+    } = this.props
+
     return (
       <div>
         <Card className={classes.card}>
           <CardContent>
-            <Typography type="body1" className={classes.title}>
-              {this.props.post.title}
-            </Typography>
+            {!edit ? (
+              <Typography type="body1" className={classes.title}>
+                {post.title}
+              </Typography>
+            ) : (
+              <TextField
+                onChange={this.props.onHandleTitleChange}
+                id="name"
+                value={edited_post.title}
+                margin="normal"
+              />
+            )}
             <div className={classes.author}>
               <i>{post.author}</i>,{" "}
               {Moment.unix(post.timestamp / 1000).format("LL")}
             </div>
-            <Typography component="p">{post.body}</Typography>
+            {!edit ? (
+              <Typography component="p">{post.body}</Typography>
+            ) : (
+              <TextField
+                multiline
+                rowsMax="4"
+                id="name"
+                value={edited_post.body}
+                onChange={this.props.onHandleBodyChange}
+                margin="normal"
+              />
+            )}
           </CardContent>
           <CardActions>
             {isDetail ? (
@@ -135,7 +164,7 @@ class PostItem extends Component {
   }
 }
 
-function mapStateToProps({ comments }, ownProps) {
+function mapStateToProps({ comments, local }, ownProps) {
   let numComments = 0
   if (comments.comments[ownProps.post.id] !== undefined) {
     numComments = comments.comments[ownProps.post.id].length
@@ -143,14 +172,18 @@ function mapStateToProps({ comments }, ownProps) {
 
   return {
     comments: comments.comments[ownProps.post.id],
-    numComments
+    numComments,
+    edit: local.edit_post
   }
 }
 
 PostItem.propTypes = {
   isDetail: PropTypes.bool,
   post: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired
+  edited_post: PropTypes.object,
+  classes: PropTypes.object.isRequired,
+  onHandleTitleChange: PropTypes.func,
+  onHandleBodyChange: PropTypes.func
 }
 
 let PI = withStyles(styles)(PostItem)
