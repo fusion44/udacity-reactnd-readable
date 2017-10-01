@@ -26,10 +26,6 @@ export const fetchPost = postId => dispatch => {
     .then(postJSON => dispatch(receivePost(postJSON)))
 }
 
-export const updatePost = post => dispatch => {
-  Util.updatePost(post)
-}
-
 export function addPost({ id, timestamp, title, body, owner, category }) {
   return {
     type: ADD_POST,
