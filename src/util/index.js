@@ -10,6 +10,17 @@ export const fetchPosts = () => fetch(`${URL}/posts`, { headers })
 
 export const fetchPost = postID => fetch(`${URL}/posts/${postID}`, { headers })
 
+export const votePost = (post, vote) => {
+  return fetch(`${URL}/posts/${post.id}`, {
+    method: "POST",
+    headers: {
+      ...headers,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ option: vote })
+  }).then(response => response.json())
+}
+
 export const updatePost = post => {
   return fetch(`${URL}/posts/${post.id}`, {
     method: "PUT",

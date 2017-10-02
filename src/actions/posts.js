@@ -37,3 +37,8 @@ export function addPost({ id, timestamp, title, body, owner, category }) {
     category
   }
 }
+
+export const votePost = (post, vote) => dispatch =>
+  Util.votePost(post, vote).then(result => {
+    dispatch(receivePost(result))
+  })

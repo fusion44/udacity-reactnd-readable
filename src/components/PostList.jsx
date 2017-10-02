@@ -7,7 +7,9 @@ const genPosts = props => {
   } else {
     let postsItems = []
     postsItems.push(
-      props.posts.map((post, index) => <PostItem post={post} key={index + 1} />)
+      props.posts.map((post, index) => {
+        return <PostItem postId={post.id} key={index + 1} />
+      })
     )
 
     return postsItems

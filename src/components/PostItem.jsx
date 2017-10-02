@@ -7,7 +7,7 @@ import Card, { CardActions, CardContent } from "material-ui/Card"
 import Button from "material-ui/Button"
 import TextField from "material-ui/TextField"
 import Typography from "material-ui/Typography"
-import { fetchComments } from "../actions"
+import { fetchComments, votePost } from "../actions"
 import IconButton from "material-ui/IconButton"
 import ExpandMoreIcon from "material-ui-icons/ExpandMore"
 import Collapse from "material-ui/transitions/Collapse"
@@ -46,7 +46,14 @@ const styles = theme => ({
 })
 
 class PostItem extends Component {
-  state = { expanded: false }
+  constructor(props) {
+    super(props)
+    this.state = { expanded: false }
+
+    this.handleExpandClick = this.handleExpandClick.bind(this)
+    this.handleUpVote = this.handleUpVote.bind(this)
+    this.handleDownVote = this.handleDownVote.bind(this)
+  }
 
   componentDidMount() {
     this.props.dispatch(fetchComments(this.props.post.id))
@@ -75,11 +82,11 @@ class PostItem extends Component {
   }
 
   handleUpVote() {
-    console.log("up")
+    this.props.dispatch(votePost(this.props.post, "upVote"))
   }
 
   handleDownVote() {
-    console.log("down")
+    this.props.dispatch(votePost(this.props.post, "downVote"))
   }
 
   render() {
@@ -144,7 +151,7 @@ class PostItem extends Component {
               className={classnames(classes.expand, {
                 [classes.expandOpen]: this.state.expanded
               })}
-              onClick={this.handleExpandClick.bind(this)}
+              onClick={this.handleExpandClick}
               aria-expanded={this.state.expanded}
               aria-label="Show more"
             >
@@ -164,14 +171,17 @@ class PostItem extends Component {
   }
 }
 
-function mapStateToProps({ comments, local }, ownProps) {
+function mapStateToProps({ posts, comments, local }, ownProps) {
+  const { postId } = ownProps
+
   let numComments = 0
-  if (comments.comments[ownProps.post.id] !== undefined) {
-    numComments = comments.comments[ownProps.post.id].length
+  if (comments.comments[postId] !== undefined) {
+    numComments = comments.comments[postId].length
   }
 
   return {
-    comments: comments.comments[ownProps.post.id],
+    post: posts.postMap[postId],
+    comments: comments.comments[postId],
     numComments,
     edit: local.edit_post
   }
@@ -179,7 +189,7 @@ function mapStateToProps({ comments, local }, ownProps) {
 
 PostItem.propTypes = {
   isDetail: PropTypes.bool,
-  post: PropTypes.object.isRequired,
+  postId: PropTypes.string.isRequired,
   edited_post: PropTypes.object,
   classes: PropTypes.object.isRequired,
   onHandleTitleChange: PropTypes.func,
