@@ -1,19 +1,13 @@
-import { SET_SORT, SET_EDIT_POST, SET_EDITED_POST_CONTENT } from "../actions"
+import { SET_EDIT_POST, SET_EDITED_POST_CONTENT } from "../actions"
 
 function local(
   state = {
-    sort: "date",
     edit_post: false,
     edited_post: { id: "", title: "", body: "" }
   },
   action
 ) {
   switch (action.type) {
-    case SET_SORT:
-      return {
-        ...state,
-        sort: action.sort
-      }
     case SET_EDIT_POST:
       return {
         ...state,

@@ -1,5 +1,6 @@
 import * as Util from "../util"
 
+export const SET_SORT = "SET_SORT"
 export const RECEIVE_POSTS = "RECEIVE_POSTS"
 export const RECEIVE_POST = "RECEIVE_POST"
 export const ADD_POST = "ADD_POST"
@@ -13,6 +14,13 @@ export const receivePost = post => ({
   type: RECEIVE_POST,
   post
 })
+
+export function setSort(sort) {
+  return {
+    type: SET_SORT,
+    sort
+  }
+}
 
 export const fetchPosts = () => dispatch => {
   Util.fetchPosts()

@@ -65,17 +65,21 @@ class App extends Component {
 
   genPostsList() {
     const { current } = this.props.categories
-    const { posts } = this.props
+    const { posts, postsByCategory } = this.props
     if (!posts) {
       return <h1>Loading!</h1>
     } else {
-      return <PostList posts={this.getPosts(current, posts)} />
+      return current === "all" ? (
+        <PostList posts={posts} />
+      ) : (
+        <PostList posts={postsByCategory[current]} />
+      )
     }
   }
 
   render() {
     const { showCategoryError } = this.props.categories
-    const { classes } = this.props
+    const { classes, sort } = this.props
     return (
       <div className="App">
         <AppBar position="static">
@@ -93,7 +97,7 @@ class App extends Component {
             aria-label="gender"
             name="gender"
             className={classes.group}
-            value={this.props.local.sort}
+            value={sort}
             onChange={this.handleSortChange.bind(this)}
           >
             <FormControlLabel value="date" control={<Radio />} label="Date" />
@@ -106,16 +110,13 @@ class App extends Component {
   }
 }
 
-function mapStateToProps({ categories, posts, local }) {
-  let sorted = posts.posts.sort((a, b) => {
-    if (local.sort === "date") {
-      return b.timestamp - a.timestamp
-    } else {
-      // at the moment there are only two choices, so just assume "votes"
-      return b.voteScore - a.voteScore
-    }
-  })
-  return { categories, posts: sorted, local }
+function mapStateToProps({ categories, posts }) {
+  return {
+    categories,
+    sort: posts.sort,
+    posts: posts.posts,
+    postsByCategory: posts.postsByCategory
+  }
 }
 
 let AppWithStyles = withStyles(styles)(App)
