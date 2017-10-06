@@ -1,7 +1,15 @@
 import * as Util from "../util"
 
+export const RECEIVE_COMMENT = "RECEIVE_COMMENT"
 export const RECEIVE_COMMENTS = "RECEIVE_COMMENTS"
 export const ADD_COMMENT = "ADD_COMMENT"
+
+export function receiveComment(comment) {
+  return {
+    type: RECEIVE_COMMENT,
+    comment
+  }
+}
 
 export function receiveComments(postId, comments) {
   return {
@@ -35,3 +43,8 @@ export function addComment({
     parentDeleted
   }
 }
+
+export const voteComment = (comment, vote) => dispatch =>
+  Util.voteComment(comment, vote).then(result => {
+    dispatch(receiveComment(result))
+  })

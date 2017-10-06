@@ -34,3 +34,14 @@ export const updatePost = post => {
 
 export const fetchComments = postId =>
   fetch(`${URL}/posts/${postId}/comments`, { headers })
+
+export const voteComment = (comment, vote) => {
+  return fetch(`${URL}/comments/${comment.id}`, {
+    method: "POST",
+    headers: {
+      ...headers,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ option: vote })
+  }).then(response => response.json())
+}

@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import { connect } from "react-redux"
 import { withStyles } from "material-ui/styles"
 import Paper from "material-ui/Paper"
 import Typography from "material-ui/Typography"
@@ -7,6 +8,7 @@ import Divider from "material-ui/Divider"
 import Grid from "material-ui/Grid"
 import Voter from "./Voter"
 import Moment from "moment"
+import { voteComment } from "../actions"
 
 const styles = theme => ({
   container: {
@@ -32,14 +34,6 @@ const styles = theme => ({
   }
 })
 
-const handleUpVote = () => {
-  console.log("up")
-}
-
-const handleDownVote = () => {
-  console.log("down")
-}
-
 const Comment = props => {
   const { classes, comment } = props
   return (
@@ -52,8 +46,8 @@ const Comment = props => {
           </div>
           <div className={classes.flexGrow} />
           <Voter
-            upVote={handleUpVote}
-            downVote={handleDownVote}
+            upVote={() => props.onVoteClick(comment, "upVote")}
+            downVote={() => props.onVoteClick(comment, "downVote")}
             score={comment.voteScore}
           />
         </Grid>
@@ -71,4 +65,13 @@ Comment.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(Comment)
+const mapDispatchToProps = dispatch => {
+  return {
+    onVoteClick: (comment, vote) => {
+      dispatch(voteComment(comment, vote))
+    }
+  }
+}
+
+let CommentWithStyles = withStyles(styles)(Comment)
+export default connect(null, mapDispatchToProps)(CommentWithStyles)
