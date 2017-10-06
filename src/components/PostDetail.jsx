@@ -119,7 +119,7 @@ class PostDetail extends Component {
         ) : (
           <PostItem
             isDetail={true}
-            post={post}
+            postId={post.id}
             edited_post={edited_post}
             onHandleTitleChange={this.handleTitleChange}
             onHandleBodyChange={this.handleBodyChange}
