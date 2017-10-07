@@ -12,7 +12,7 @@ import IconButton from "material-ui/IconButton"
 import ExpandMoreIcon from "material-ui-icons/ExpandMore"
 import Collapse from "material-ui/transitions/Collapse"
 import classnames from "classnames"
-import Comment from "./Comment"
+import CommentList from "./CommentList"
 import Voter from "./Voter"
 import Moment from "moment"
 
@@ -64,21 +64,6 @@ class PostItem extends Component {
 
   handleExpandClick() {
     this.setState({ expanded: !this.state.expanded })
-  }
-
-  renderComments() {
-    if (!this.props.comments) {
-      return <h1>Loading ...</h1>
-    } else {
-      let commentItems = []
-      commentItems.push(
-        this.props.comments.map((comment, index) => (
-          <Comment comment={comment} key={index + 1} />
-        ))
-      )
-
-      return commentItems
-    }
   }
 
   handleUpVote() {
@@ -163,7 +148,9 @@ class PostItem extends Component {
             transitionDuration="auto"
             unmountOnExit
           >
-            <CardContent>{this.renderComments()}</CardContent>
+            <CardContent>
+              <CommentList postId={this.props.postId} />
+            </CardContent>
           </Collapse>
         </Card>
       </div>
