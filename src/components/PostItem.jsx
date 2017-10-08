@@ -7,7 +7,7 @@ import Card, { CardActions, CardContent } from "material-ui/Card"
 import Button from "material-ui/Button"
 import TextField from "material-ui/TextField"
 import Typography from "material-ui/Typography"
-import { fetchComments, votePost } from "../actions"
+import { fetchComments, toggleExpandPost, votePost } from "../actions"
 import IconButton from "material-ui/IconButton"
 import ExpandMoreIcon from "material-ui-icons/ExpandMore"
 import Collapse from "material-ui/transitions/Collapse"
@@ -48,7 +48,6 @@ const styles = theme => ({
 class PostItem extends Component {
   constructor(props) {
     super(props)
-    this.state = { expanded: false }
 
     this.handleExpandClick = this.handleExpandClick.bind(this)
     this.handleUpVote = this.handleUpVote.bind(this)
@@ -57,13 +56,17 @@ class PostItem extends Component {
 
   componentDidMount() {
     this.props.dispatch(fetchComments(this.props.post.id))
-    if (this.props.isDetail !== undefined && this.props.isDetail === true) {
-      this.setState({ expanded: true })
+    if (
+      this.props.isDetail !== undefined &&
+      this.props.isDetail === true &&
+      !this.props.expanded
+    ) {
+      this.props.dispatch(toggleExpandPost(this.props.post.id))
     }
   }
 
   handleExpandClick() {
-    this.setState({ expanded: !this.state.expanded })
+    this.props.dispatch(toggleExpandPost(this.props.post.id))
   }
 
   handleUpVote() {
@@ -134,17 +137,17 @@ class PostItem extends Component {
             <div>Comments: {numComments}</div>
             <IconButton
               className={classnames(classes.expand, {
-                [classes.expandOpen]: this.state.expanded
+                [classes.expandOpen]: this.props.expanded
               })}
               onClick={this.handleExpandClick}
-              aria-expanded={this.state.expanded}
+              aria-expanded={this.props.expanded}
               aria-label="Show more"
             >
               <ExpandMoreIcon />
             </IconButton>
           </CardActions>
           <Collapse
-            in={this.state.expanded}
+            in={this.props.expanded}
             transitionDuration="auto"
             unmountOnExit
           >
@@ -169,6 +172,7 @@ function mapStateToProps({ posts, comments, local }, ownProps) {
   return {
     post: posts.postMap[postId],
     comments: comments.comments[postId],
+    expanded: postId === posts.expandedId,
     numComments,
     edit: local.edit_post
   }

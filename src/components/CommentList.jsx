@@ -4,17 +4,11 @@ import { connect } from "react-redux"
 import { withStyles } from "material-ui/styles"
 import classnames from "classnames"
 import Comment from "./Comment"
+import CommentEditor from "./CommentEditor"
 
 const styles = theme => ({})
 
 class CommentList extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { expanded: false }
-
-    this.handleAddComment = this.handleAddComment.bind(this)
-  }
-
   renderComments() {
     if (!this.props.comments) {
       return <h1>Loading ...</h1>
@@ -30,14 +24,15 @@ class CommentList extends Component {
     }
   }
 
-  handleAddComment() {
-    console.log("Add")
-  }
-
   render() {
     const { classes } = this.props
 
-    return <div>{this.renderComments()}</div>
+    return (
+      <div>
+        {this.renderComments()}
+        <CommentEditor />
+      </div>
+    )
   }
 }
 

@@ -1,5 +1,6 @@
 import * as Util from "../util"
 
+export const EXPAND_POST = "EXPAND_POST"
 export const SET_SORT = "SET_SORT"
 export const RECEIVE_POSTS = "RECEIVE_POSTS"
 export const RECEIVE_POST = "RECEIVE_POST"
@@ -19,6 +20,13 @@ export function setSort(sort) {
   return {
     type: SET_SORT,
     sort
+  }
+}
+
+export function toggleExpandPost(postId) {
+  return {
+    type: EXPAND_POST,
+    postId
   }
 }
 

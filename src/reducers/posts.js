@@ -1,4 +1,10 @@
-import { SET_SORT, RECEIVE_POST, RECEIVE_POSTS, ADD_POST } from "../actions"
+import {
+  EXPAND_POST,
+  SET_SORT,
+  RECEIVE_POST,
+  RECEIVE_POSTS,
+  ADD_POST
+} from "../actions"
 
 function sort(posts, sort) {
   return posts.sort((a, b) => {
@@ -29,10 +35,20 @@ function postsByCategory(posts) {
 }
 
 function posts(
-  state = { sort: "date", posts: [], postMap: {}, postsByCategory: {} },
+  state = {
+    sort: "date",
+    posts: [],
+    postMap: {},
+    postsByCategory: {},
+    expandedId: ""
+  },
   action
 ) {
   switch (action.type) {
+    case EXPAND_POST:
+      // If the post is already expanded close it again
+      let expandedId = action.postId === state.expandedId ? "" : action.postId
+      return { ...state, expandedId }
     case SET_SORT:
       let sortedPosts = sort(state.posts, action.sort)
       return {
