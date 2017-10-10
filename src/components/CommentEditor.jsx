@@ -3,10 +3,10 @@ import PropTypes from "prop-types"
 import { connect } from "react-redux"
 import { withStyles } from "material-ui/styles"
 import classnames from "classnames"
-import Comment from "./Comment"
 import TextField from "material-ui/TextField"
 import Button from "material-ui/Button"
 import Typography from "material-ui/Typography"
+import { editComment, resetCommentEditor, submitComment } from "../actions"
 
 const styles = theme => ({
   root: {
@@ -36,14 +36,32 @@ class CommentEditor extends Component {
     this.handleSubmitComment = this.handleSubmitComment.bind(this)
   }
 
-  handleChange = name => event => {
-    // TODO: move values to store
-    this.setState({
-      [name]: event.target.value
-    })
+  componentWillUnmount() {
+    this.props.dispatch(resetCommentEditor())
   }
 
-  handleSubmitComment() {}
+  handleChange = name => event => {
+    const { isNew, commentId, postId, body, author } = this.props
+    switch (name) {
+      case "author":
+        this.props.dispatch(
+          editComment(isNew, postId, commentId, event.target.value, body)
+        )
+        return
+      case "body":
+        this.props.dispatch(
+          editComment(isNew, postId, commentId, author, event.target.value)
+        )
+        return
+      default:
+        return
+    }
+  }
+
+  handleSubmitComment() {
+    const { isNew, commentId, postId, body, author } = this.props
+    this.props.dispatch(submitComment(isNew, commentId, body, author, postId))
+  }
 
   render() {
     const { classes } = this.props
@@ -76,15 +94,23 @@ class CommentEditor extends Component {
 function mapStateToProps({ comments }, ownProps) {
   if (ownProps.comment) {
     return {
+      isNew: false, // we've received a comment => not new
+      commentId: ownProps.comment.id, // We must use the existing ID
       author: ownProps.comment.author,
       body: ownProps.comment.body
     }
   } else {
-    return { author: "", body: "" }
+    return {
+      isNew: true, // no comment object was received => new comment
+      commentId: undefined, // new comment id will generated for the POST request
+      author: comments.editedComment.author,
+      body: comments.editedComment.body
+    }
   }
 }
 
 CommentEditor.propTypes = {
+  postId: PropTypes.string.isRequired,
   comment: PropTypes.object
 }
 

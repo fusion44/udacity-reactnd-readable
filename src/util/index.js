@@ -1,3 +1,5 @@
+const uuidv1 = require("uuid/v1")
+
 const URL = "http://localhost:3001"
 
 const headers = {
@@ -43,5 +45,33 @@ export const voteComment = (comment, vote) => {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({ option: vote })
+  }).then(response => response.json())
+}
+
+export const submitNewComment = (body, author, parentId) => {
+  return fetch(`${URL}/comments`, {
+    method: "POST",
+    headers: {
+      ...headers,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      id: uuidv1(),
+      timestamp: Date.now(),
+      body,
+      author,
+      parentId
+    })
+  }).then(response => response.json())
+}
+
+export const submitEditedComment = (commentId, body) => {
+  return fetch(`${URL}/comments/${commentId}`, {
+    method: "PUT",
+    headers: {
+      ...headers,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ timestamp: Date.now(), body })
   }).then(response => response.json())
 }

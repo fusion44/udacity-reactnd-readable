@@ -16,7 +16,11 @@ class CommentList extends Component {
       let commentItems = []
       commentItems.push(
         this.props.comments.map((comment, index) => (
-          <Comment comment={comment} key={index + 1} />
+          <Comment
+            postId={this.props.postId}
+            comment={comment}
+            key={index + 1}
+          />
         ))
       )
 
@@ -30,7 +34,7 @@ class CommentList extends Component {
     return (
       <div>
         {this.renderComments()}
-        <CommentEditor />
+        <CommentEditor postId={this.props.postId} />
       </div>
     )
   }
@@ -38,6 +42,7 @@ class CommentList extends Component {
 
 function mapStateToProps({ comments }, ownProps) {
   return {
+    postId: ownProps.postId,
     comments: comments.comments[ownProps.postId]
   }
 }

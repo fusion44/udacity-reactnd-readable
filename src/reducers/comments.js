@@ -1,4 +1,9 @@
-import { ADD_COMMENT, RECEIVE_COMMENT, RECEIVE_COMMENTS } from "../actions"
+import {
+  RECEIVE_COMMENT,
+  RECEIVE_COMMENTS,
+  EDIT_COMMENT,
+  RESET_COMMENT_EDITOR
+} from "../actions"
 
 function sort(comments) {
   return comments.sort((a, b) => {
@@ -6,7 +11,10 @@ function sort(comments) {
   })
 }
 
-function comments(state = { comments: {} }, action) {
+function comments(
+  state = { comments: {}, editedComment: { postId: "", author: "", body: "" } },
+  action
+) {
   switch (action.type) {
     case RECEIVE_COMMENT:
       const { parentId } = action.comment
@@ -30,8 +38,16 @@ function comments(state = { comments: {} }, action) {
         ...state,
         comments: map
       }
-    case ADD_COMMENT:
-      return state
+    case EDIT_COMMENT:
+      return {
+        ...state,
+        editedComment: action.editedComment
+      }
+    case RESET_COMMENT_EDITOR:
+      return {
+        ...state,
+        editedComment: { postId: "", author: "", body: "" }
+      }
     default:
       return state
   }
