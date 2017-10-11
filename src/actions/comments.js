@@ -65,10 +65,7 @@ export const submitComment = (
         dispatch(receiveComment(comment))
         dispatch(resetCommentEditor())
       })
-    : Util.submitEditedComment(commentId, body)
-        .then(comment => comment.json())
-        .then(commentJSON => {
-          dispatch(receiveComment(commentJSON))
-          dispatch(resetCommentEditor())
-        })
+    : Util.submitEditedComment(commentId, body).then(commentJSON => {
+        dispatch(receiveComment(commentJSON))
+      })
 }

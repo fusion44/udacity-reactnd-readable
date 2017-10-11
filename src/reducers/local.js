@@ -1,9 +1,14 @@
-import { SET_EDIT_POST, SET_EDITED_POST_CONTENT } from "../actions"
+import {
+  SET_EDIT_POST,
+  SET_EDITED_POST_CONTENT,
+  EDIT_COMMENT_POPUP
+} from "../actions"
 
 function local(
   state = {
     edit_post: false,
-    edited_post: { id: "", title: "", body: "" }
+    edited_post: { id: "", title: "", body: "" },
+    editCommentPopup: { popupOpen: false, id: "", body: "" }
   },
   action
 ) {
@@ -29,6 +34,15 @@ function local(
       return {
         ...state,
         edited_post: newPost
+      }
+    case EDIT_COMMENT_POPUP:
+      return {
+        ...state,
+        editCommentPopup: {
+          popupOpen: action.popupOpen,
+          id: action.id,
+          body: action.body
+        }
       }
     default:
       return state

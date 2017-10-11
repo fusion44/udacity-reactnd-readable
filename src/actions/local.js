@@ -8,6 +8,7 @@ import { receivePost } from "./posts"
 
 export const SET_EDIT_POST = "SET_EDIT_POST"
 export const SET_EDITED_POST_CONTENT = "SET_EDITED_POST_CONTENT"
+export const EDIT_COMMENT_POPUP = "EDIT_COMMENT_POPUP"
 
 export function setEditPost(edit) {
   return {
@@ -28,4 +29,13 @@ export const putEditPost = post => (dispatch, state) => {
   Util.updatePost(edited_post)
     .then(result => dispatch(receivePost(result)))
     .catch(error => console.log(error))
+}
+
+export const editCommentPopUp = (popupOpen, id, body) => {
+  return {
+    type: EDIT_COMMENT_POPUP,
+    popupOpen,
+    id,
+    body
+  }
 }

@@ -6,6 +6,8 @@ import Paper from "material-ui/Paper"
 import Typography from "material-ui/Typography"
 import Divider from "material-ui/Divider"
 import Grid from "material-ui/Grid"
+import IconButton from "material-ui/IconButton"
+import EditIcon from "material-ui-icons/Edit"
 import Voter from "./Voter"
 import Moment from "moment"
 import { voteComment } from "../actions"
@@ -23,11 +25,11 @@ const styles = theme => ({
   flexGrow: {
     flex: "1 1 auto"
   },
-  thumb: {
-    paddingLeft: 4,
+  editIcon: {
+    paddingRight: 8,
     paddingBottom: 10,
-    width: 20,
-    height: 20
+    width: 25,
+    height: 25
   },
   headerText: {
     padding: "4px 0"
@@ -45,6 +47,15 @@ const Comment = props => {
             {Moment.unix(comment.timestamp / 1000).format("LL")}
           </div>
           <div className={classes.flexGrow} />
+          <IconButton
+            className={classes.editIcon}
+            onClick={() => {
+              props.onEditComment(comment)
+            }}
+            aria-label="Edit"
+          >
+            <EditIcon />
+          </IconButton>
           <Voter
             upVote={() => props.onVoteClick(comment, "upVote")}
             downVote={() => props.onVoteClick(comment, "downVote")}
@@ -61,6 +72,8 @@ const Comment = props => {
 }
 
 Comment.propTypes = {
+  onVoteClick: PropTypes.func.isRequired,
+  onEditComment: PropTypes.func.isRequired,
   comment: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired
 }
