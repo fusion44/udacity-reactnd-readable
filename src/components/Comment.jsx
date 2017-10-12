@@ -8,6 +8,7 @@ import Divider from "material-ui/Divider"
 import Grid from "material-ui/Grid"
 import IconButton from "material-ui/IconButton"
 import EditIcon from "material-ui-icons/Edit"
+import DeleteIcon from "material-ui-icons/Delete"
 import Voter from "./Voter"
 import Moment from "moment"
 import { voteComment } from "../actions"
@@ -25,7 +26,7 @@ const styles = theme => ({
   flexGrow: {
     flex: "1 1 auto"
   },
-  editIcon: {
+  actionIcon: {
     paddingRight: 8,
     paddingBottom: 10,
     width: 25,
@@ -48,13 +49,22 @@ const Comment = props => {
           </div>
           <div className={classes.flexGrow} />
           <IconButton
-            className={classes.editIcon}
+            className={classes.actionIcon}
             onClick={() => {
               props.onEditComment(comment)
             }}
             aria-label="Edit"
           >
             <EditIcon />
+          </IconButton>
+          <IconButton
+            className={classes.actionIcon}
+            onClick={() => {
+              props.onDeleteComment(comment)
+            }}
+            aria-label="Delete"
+          >
+            <DeleteIcon />
           </IconButton>
           <Voter
             upVote={() => props.onVoteClick(comment, "upVote")}
@@ -74,6 +84,7 @@ const Comment = props => {
 Comment.propTypes = {
   onVoteClick: PropTypes.func.isRequired,
   onEditComment: PropTypes.func.isRequired,
+  onDeleteComment: PropTypes.func.isRequired,
   comment: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired
 }

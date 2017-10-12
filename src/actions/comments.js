@@ -1,9 +1,19 @@
 import * as Util from "../util"
 
+export const DELETE_COMMENT = "DELETE_COMMENT"
 export const RECEIVE_COMMENT = "RECEIVE_COMMENT"
 export const RECEIVE_COMMENTS = "RECEIVE_COMMENTS"
 export const EDIT_COMMENT = "EDIT_COMMENT"
 export const RESET_COMMENT_EDITOR = "RESET_COMMENT_EDITOR"
+
+export const deleteComment = comment => dispatch => {
+  Util.deleteComment(comment).then(res =>
+    dispatch({
+      type: DELETE_COMMENT,
+      comment
+    })
+  )
+}
 
 export function receiveComment(comment) {
   return {

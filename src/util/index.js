@@ -48,6 +48,16 @@ export const voteComment = (comment, vote) => {
   }).then(response => response.json())
 }
 
+export const deleteComment = comment => {
+  return fetch(`${URL}/comments/${comment.id}`, {
+    method: "DELETE",
+    headers: {
+      ...headers,
+      "Content-Type": "application/json"
+    }
+  }).then(response => response.json())
+}
+
 export const submitNewComment = (body, author, parentId) => {
   return fetch(`${URL}/comments`, {
     method: "POST",

@@ -1,4 +1,5 @@
 import {
+  DELETE_COMMENT,
   RECEIVE_COMMENT,
   RECEIVE_COMMENTS,
   EDIT_COMMENT,
@@ -16,6 +17,20 @@ function comments(
   action
 ) {
   switch (action.type) {
+    case DELETE_COMMENT:
+      if (!state.comments[action.comment.parentId]) return { state }
+
+      let newList = state.comments[action.comment.parentId].filter(c => {
+        return c.id === action.comment.id ? undefined : c
+      })
+
+      let remainingCommentMap = { ...state.comments }
+      remainingCommentMap[action.comment.parentId] = sort(newList)
+
+      return {
+        ...state,
+        comments: remainingCommentMap
+      }
     case RECEIVE_COMMENT:
       const { parentId } = action.comment
       let newComments = []

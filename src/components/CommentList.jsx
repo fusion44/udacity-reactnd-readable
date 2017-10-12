@@ -7,7 +7,7 @@ import CommentEditor from "./CommentEditor"
 import Button from "material-ui/Button"
 import TextField from "material-ui/TextField"
 import Dialog, { DialogActions, DialogTitle } from "material-ui/Dialog"
-import { editCommentPopUp, submitComment } from "../actions"
+import { editCommentPopUp, submitComment, deleteComment } from "../actions"
 
 const styles = theme => ({
   content: {
@@ -22,6 +22,10 @@ class CommentList extends Component {
 
   editComment(comment) {
     this.props.dispatch(editCommentPopUp(true, comment.id, comment.body))
+  }
+
+  handleDeleteComment(comment) {
+    this.props.dispatch(deleteComment(comment))
   }
 
   handleRequestSubmit() {
@@ -88,6 +92,7 @@ class CommentList extends Component {
         this.props.comments.map((comment, index) => (
           <Comment
             onEditComment={this.editComment.bind(this)}
+            onDeleteComment={this.handleDeleteComment.bind(this)}
             postId={this.props.postId}
             comment={comment}
             key={index + 1}
