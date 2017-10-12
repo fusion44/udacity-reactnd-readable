@@ -5,14 +5,29 @@ import AppBar from "material-ui/AppBar"
 import Tabs, { Tab } from "material-ui/Tabs"
 import PostList from "./components/PostList"
 import CategoryNotFoundError from "./components/CategoryNotFoundError"
-import { setCategory, fetchCategories, fetchPosts, setSort } from "./actions"
+import {
+  setCategory,
+  fetchCategories,
+  fetchPosts,
+  submitPost,
+  setSort,
+  addPostDialogChange
+} from "./actions"
 import { withStyles } from "material-ui/styles"
 import Radio, { RadioGroup } from "material-ui/Radio"
 import { FormControl, FormControlLabel } from "material-ui/Form"
+import Button from "material-ui/Button"
+import AddIcon from "material-ui-icons/Add"
+import PostAddDialog from "./components/PostAddDialog"
 
 const styles = theme => ({
   group: {
     flexDirection: "row"
+  },
+  fab: {
+    position: "fixed",
+    right: 45,
+    bottom: 45
   }
 })
 
@@ -77,6 +92,19 @@ class App extends Component {
     }
   }
 
+  handleAddPost() {
+    this.props.dispatch(addPostDialogChange(true, "", "", "", ""))
+  }
+
+  handleSubmitNewPost() {
+    this.props.dispatch(submitPost())
+    this.props.dispatch(addPostDialogChange(false, "", "", "", ""))
+  }
+
+  handleCancelNewPost() {
+    this.props.dispatch(addPostDialogChange(false, "", "", "", ""))
+  }
+
   render() {
     const { showCategoryError } = this.props.categories
     const { classes, sort } = this.props
@@ -105,6 +133,21 @@ class App extends Component {
           </RadioGroup>
         </FormControl>
         {showCategoryError ? <CategoryNotFoundError /> : this.genPostsList()}
+
+        <Button
+          onClick={this.handleAddPost.bind(this)}
+          fab
+          color="primary"
+          aria-label="add"
+          className={classes.fab}
+        >
+          <AddIcon />
+        </Button>
+
+        <PostAddDialog
+          onSubmit={this.handleSubmitNewPost.bind(this)}
+          onCancel={this.handleCancelNewPost.bind(this)}
+        />
       </div>
     )
   }

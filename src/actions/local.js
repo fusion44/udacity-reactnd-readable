@@ -9,6 +9,7 @@ import { receivePost } from "./posts"
 export const SET_EDIT_POST = "SET_EDIT_POST"
 export const SET_EDITED_POST_CONTENT = "SET_EDITED_POST_CONTENT"
 export const EDIT_COMMENT_POPUP = "EDIT_COMMENT_POPUP"
+export const ADD_POST_DIALOG_CHANGE = "ADD_POST_DIALOG_CHANGE"
 
 export function setEditPost(edit) {
   return {
@@ -38,4 +39,35 @@ export const editCommentPopUp = (popupOpen, id, body) => {
     id,
     body
   }
+}
+
+/**
+ * @param {boolean} dialogOpen - Whether dialog is currently shown
+ * @param {string} title - Title of the post
+ * @param {string} body - Body of the post
+ * @param {string} author - Author of the post
+ * @param {string} category - Category of the post
+ */
+export const addPostDialogChange = (
+  dialogOpen,
+  category,
+  author,
+  title,
+  body
+) => {
+  return {
+    type: ADD_POST_DIALOG_CHANGE,
+    dialogOpen,
+    category,
+    author,
+    title,
+    body
+  }
+}
+
+export const submitPost = () => (dispatch, state) => {
+  const { title, body, author, category } = state().local.addPostDialogState
+  Util.submitPost(category, author, title, body)
+    .then(result => dispatch(receivePost(result)))
+    .catch(error => console.log(error))
 }

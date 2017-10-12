@@ -75,3 +75,21 @@ export const submitEditedComment = (commentId, body) => {
     body: JSON.stringify({ timestamp: Date.now(), body })
   }).then(response => response.json())
 }
+
+export const submitPost = (category, author, title, body) => {
+  return fetch(`${URL}/posts`, {
+    method: "POST",
+    headers: {
+      ...headers,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      id: uuidv1(),
+      timestamp: Date.now(),
+      title,
+      body,
+      author,
+      category
+    })
+  }).then(response => response.json())
+}

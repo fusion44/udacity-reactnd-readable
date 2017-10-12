@@ -18,9 +18,12 @@ function comments(
   switch (action.type) {
     case RECEIVE_COMMENT:
       const { parentId } = action.comment
-      let newComments = state.comments[parentId].filter(c => {
-        return c.id === action.comment.id ? undefined : c
-      })
+      let newComments = []
+      if (state.comments[parentId]) {
+        newComments = state.comments[parentId].filter(c => {
+          return c.id === action.comment.id ? undefined : c
+        })
+      }
 
       newComments.push(action.comment)
 
