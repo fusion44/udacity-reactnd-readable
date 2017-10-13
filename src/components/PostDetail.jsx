@@ -11,6 +11,7 @@ import {
 import AppBar from "material-ui/AppBar"
 import { withStyles } from "material-ui/styles"
 import PostItem from "./PostItem"
+import NotFoundError from "./NotFoundError"
 import Grid from "material-ui/Grid"
 import IconButton from "material-ui/IconButton"
 import ArrowBackIcon from "material-ui-icons/ArrowBack"
@@ -89,8 +90,26 @@ class PostDetail extends Component {
     })
   }
 
+  getContent() {
+    const { loading, post, edited_post } = this.props
+    return loading ? (
+      <div>Loading...</div>
+    ) : post.found ? (
+      <PostItem
+        isDetail={true}
+        postId={post.id}
+        edited_post={edited_post}
+        onHandleTitleChange={this.handleTitleChange}
+        onHandleBodyChange={this.handleBodyChange}
+      />
+    ) : (
+      <NotFoundError text="Post not found" />
+    )
+  }
+
   render() {
-    const { loading, classes, post, edit_post, edited_post } = this.props
+    const { classes, edit_post, post } = this.props
+    let buttonsEnabled = !post || !post.found
 
     return (
       <div>
@@ -109,6 +128,7 @@ class PostDetail extends Component {
                 className={classes.icon}
                 onClick={this.handleDone}
                 aria-label="Done"
+                disabled={buttonsEnabled}
               >
                 <DoneIcon />
               </IconButton>
@@ -117,6 +137,7 @@ class PostDetail extends Component {
                 className={classes.icon}
                 onClick={this.handleEdit}
                 aria-label="Edit"
+                disabled={buttonsEnabled}
               >
                 <EditIcon />
               </IconButton>
@@ -125,22 +146,13 @@ class PostDetail extends Component {
               className={classes.icon}
               onClick={this.handleDelete}
               aria-label="Edit"
+              disabled={buttonsEnabled}
             >
               <DeleteIcon />
             </IconButton>
           </Grid>
         </AppBar>
-        {loading ? (
-          <div>Loading...</div>
-        ) : (
-          <PostItem
-            isDetail={true}
-            postId={post.id}
-            edited_post={edited_post}
-            onHandleTitleChange={this.handleTitleChange}
-            onHandleBodyChange={this.handleBodyChange}
-          />
-        )}
+        {this.getContent()}
       </div>
     )
   }

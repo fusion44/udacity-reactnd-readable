@@ -28,7 +28,10 @@ export function setEditedPostContent(post) {
 export const putEditPost = post => (dispatch, state) => {
   const { edited_post } = state().local
   Util.updatePost(edited_post)
-    .then(result => dispatch(receivePost(result)))
+    .then(post => {
+      post.found = true
+      dispatch(receivePost(post))
+    })
     .catch(error => console.log(error))
 }
 

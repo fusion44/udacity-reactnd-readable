@@ -4,7 +4,7 @@ import "./App.css"
 import AppBar from "material-ui/AppBar"
 import Tabs, { Tab } from "material-ui/Tabs"
 import PostList from "./components/PostList"
-import CategoryNotFoundError from "./components/CategoryNotFoundError"
+import NotFoundError from "./components/NotFoundError"
 import {
   setCategory,
   fetchCategories,
@@ -132,7 +132,11 @@ class App extends Component {
             <FormControlLabel value="votes" control={<Radio />} label="Votes" />
           </RadioGroup>
         </FormControl>
-        {showCategoryError ? <CategoryNotFoundError /> : this.genPostsList()}
+        {showCategoryError ? (
+          <NotFoundError text="Category not found" />
+        ) : (
+          this.genPostsList()
+        )}
 
         <Button
           onClick={this.handleAddPost.bind(this)}

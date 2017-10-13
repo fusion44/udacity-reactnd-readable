@@ -16,10 +16,15 @@ export const deletePost = post => dispatch => {
   })
 }
 
-export const receivePosts = posts => ({
-  type: RECEIVE_POSTS,
-  posts
-})
+export const receivePosts = posts => {
+  posts.forEach(function(element) {
+    element.found = true
+  }, this)
+  return {
+    type: RECEIVE_POSTS,
+    posts
+  }
+}
 
 export const receivePost = post => ({
   type: RECEIVE_POST,
@@ -48,8 +53,14 @@ export const fetchPosts = () => dispatch => {
 
 export const fetchPost = postId => dispatch => {
   Util.fetchPost(postId)
-    .then(post => post.json())
-    .then(postJSON => dispatch(receivePost(postJSON)))
+    .then(response => response.json())
+    .then(post => {
+      if (!post.id) {
+        post.id = postId
+        post.found = false
+      } else post.found = true
+      dispatch(receivePost(post))
+    })
 }
 
 export function addPost({ id, timestamp, title, body, owner, category }) {
@@ -65,6 +76,10 @@ export function addPost({ id, timestamp, title, body, owner, category }) {
 }
 
 export const votePost = (post, vote) => dispatch =>
-  Util.votePost(post, vote).then(result => {
-    dispatch(receivePost(result))
+  Util.votePost(post, vote).then(retpost => {
+    if (!retpost.id) {
+      retpost.id = post.id
+      retpost.found = false
+    } else retpost.found = true
+    dispatch(receivePost(retpost))
   })

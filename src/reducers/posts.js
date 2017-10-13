@@ -88,7 +88,12 @@ function posts(
     case DELETE_POST:
       newPostList = state.posts.filter(p_existing => {
         // remove the post from the list
-        return p_existing.id === action.post.id ? undefined : p_existing
+        return p_existing.id === action.post.id
+          ? {
+              id: action.post.id,
+              found: false
+            }
+          : p_existing
       })
 
       return {
