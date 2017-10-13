@@ -4,7 +4,17 @@ export const EXPAND_POST = "EXPAND_POST"
 export const SET_SORT = "SET_SORT"
 export const RECEIVE_POSTS = "RECEIVE_POSTS"
 export const RECEIVE_POST = "RECEIVE_POST"
+export const DELETE_POST = "DELETE_POST"
 export const ADD_POST = "ADD_POST"
+
+export const deletePost = post => dispatch => {
+  return Util.deletePost(post).then(result => {
+    dispatch({
+      type: DELETE_POST,
+      post
+    })
+  })
+}
 
 export const receivePosts = posts => ({
   type: RECEIVE_POSTS,

@@ -1,9 +1,9 @@
 import {
+  DELETE_POST,
   EXPAND_POST,
   SET_SORT,
   RECEIVE_POST,
-  RECEIVE_POSTS,
-  ADD_POST
+  RECEIVE_POSTS
 } from "../actions"
 
 function sort(posts, sort) {
@@ -85,9 +85,18 @@ function posts(
         postMap: postsMap(newPostList),
         postsByCategory: postsByCategory(newPostList)
       }
-    case ADD_POST:
-      //const { post } = action
-      return state
+    case DELETE_POST:
+      newPostList = state.posts.filter(p_existing => {
+        // remove the post from the list
+        return p_existing.id === action.post.id ? undefined : p_existing
+      })
+
+      return {
+        ...state,
+        posts: newPostList, // no need to resort the array
+        postMap: postsMap(newPostList),
+        postsByCategory: postsByCategory(newPostList)
+      }
     default:
       return state
   }

@@ -12,6 +12,16 @@ export const fetchPosts = () => fetch(`${URL}/posts`, { headers })
 
 export const fetchPost = postID => fetch(`${URL}/posts/${postID}`, { headers })
 
+export const deletePost = post => {
+  return fetch(`${URL}/posts/${post.id}`, {
+    method: "DELETE",
+    headers: {
+      ...headers,
+      "Content-Type": "application/json"
+    }
+  }).then(response => response.json())
+}
+
 export const votePost = (post, vote) => {
   return fetch(`${URL}/posts/${post.id}`, {
     method: "POST",

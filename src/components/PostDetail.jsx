@@ -5,7 +5,8 @@ import {
   fetchPost,
   setEditPost,
   setEditedPostContent,
-  putEditPost
+  putEditPost,
+  deletePost
 } from "../actions"
 import AppBar from "material-ui/AppBar"
 import { withStyles } from "material-ui/styles"
@@ -15,6 +16,7 @@ import IconButton from "material-ui/IconButton"
 import ArrowBackIcon from "material-ui-icons/ArrowBack"
 import EditIcon from "material-ui-icons/Edit"
 import DoneIcon from "material-ui-icons/Done"
+import DeleteIcon from "material-ui-icons/Delete"
 
 const styles = theme => ({
   appBar: {
@@ -42,6 +44,7 @@ class PostDetail extends Component {
     this.handleBack = this.handleBack.bind(this)
     this.handleDone = this.handleDone.bind(this)
     this.handleEdit = this.handleEdit.bind(this)
+    this.handleDelete = this.handleDelete.bind(this)
     this.handleTitleChange = this.handleTitleChange.bind(this)
     this.handleBodyChange = this.handleBodyChange.bind(this)
   }
@@ -80,6 +83,12 @@ class PostDetail extends Component {
     this.props.dispatch(setEditPost(false))
   }
 
+  handleDelete() {
+    this.props.dispatch(deletePost(this.props.post)).then(() => {
+      this.props.history.push("/")
+    })
+  }
+
   render() {
     const { loading, classes, post, edit_post, edited_post } = this.props
 
@@ -112,6 +121,13 @@ class PostDetail extends Component {
                 <EditIcon />
               </IconButton>
             )}
+            <IconButton
+              className={classes.icon}
+              onClick={this.handleDelete}
+              aria-label="Edit"
+            >
+              <DeleteIcon />
+            </IconButton>
           </Grid>
         </AppBar>
         {loading ? (
@@ -139,7 +155,6 @@ function mapStateToProps({ comments, posts, local }, ownProps) {
   ) {
     loading = false
   }
-
   return {
     loading,
     post: posts.postMap[post_id],
