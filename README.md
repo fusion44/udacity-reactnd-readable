@@ -9,7 +9,12 @@ Quick start client:
 * npm start
 * open http://localhost:3000/
 
+*Update 1*:
+Add edit and delete buttons to post items in addition to the existing buttons in detail view.
 
+
+
+------------------
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
