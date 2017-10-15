@@ -71,6 +71,9 @@ export const addPostDialogChange = (
 export const submitPost = () => (dispatch, state) => {
   const { title, body, author, category } = state().local.addPostDialogState
   Util.submitPost(category, author, title, body)
-    .then(result => dispatch(receivePost(result)))
+    .then(result => {
+      result.found = true
+      dispatch(receivePost(result))
+    })
     .catch(error => console.log(error))
 }
