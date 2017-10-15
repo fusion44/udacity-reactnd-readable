@@ -5,12 +5,13 @@ const genPosts = props => {
   if (!props.posts) {
     return <h1>Loading ...</h1>
   } else {
-    let postsItems = []
-    postsItems.push(
-      props.posts.map((post, index) => {
+    let postsItems = props.posts
+      .filter(post => {
+        return post.found
+      })
+      .map((post, index) => {
         return <PostItem postId={post.id} key={index + 1} />
       })
-    )
 
     return postsItems
   }

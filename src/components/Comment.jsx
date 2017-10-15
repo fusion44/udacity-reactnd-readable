@@ -6,9 +6,6 @@ import Paper from "material-ui/Paper"
 import Typography from "material-ui/Typography"
 import Divider from "material-ui/Divider"
 import Grid from "material-ui/Grid"
-import IconButton from "material-ui/IconButton"
-import EditIcon from "material-ui-icons/Edit"
-import DeleteIcon from "material-ui-icons/Delete"
 import Voter from "./Voter"
 import Moment from "moment"
 import { voteComment } from "../actions"
@@ -26,12 +23,6 @@ const styles = theme => ({
   flexGrow: {
     flex: "1 1 auto"
   },
-  actionIcon: {
-    paddingRight: 8,
-    paddingBottom: 10,
-    width: 25,
-    height: 25
-  },
   headerText: {
     padding: "4px 0"
   }
@@ -48,27 +39,11 @@ const Comment = props => {
             {Moment.unix(comment.timestamp / 1000).format("LL")}
           </div>
           <div className={classes.flexGrow} />
-          <IconButton
-            className={classes.actionIcon}
-            onClick={() => {
-              props.onEditComment(comment)
-            }}
-            aria-label="Edit"
-          >
-            <EditIcon />
-          </IconButton>
-          <IconButton
-            className={classes.actionIcon}
-            onClick={() => {
-              props.onDeleteComment(comment)
-            }}
-            aria-label="Delete"
-          >
-            <DeleteIcon />
-          </IconButton>
           <Voter
             upVote={() => props.onVoteClick(comment, "upVote")}
             downVote={() => props.onVoteClick(comment, "downVote")}
+            delete={() => props.onDeleteComment(comment)}
+            edit={() => props.onEditComment(comment)}
             score={comment.voteScore}
           />
         </Grid>

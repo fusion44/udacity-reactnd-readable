@@ -1,13 +1,21 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { connect } from "react-redux"
+import { withRouter } from "react-router"
 import { Link } from "react-router-dom"
 import { withStyles } from "material-ui/styles"
 import Card, { CardActions, CardContent } from "material-ui/Card"
 import Button from "material-ui/Button"
 import TextField from "material-ui/TextField"
 import Typography from "material-ui/Typography"
-import { fetchComments, toggleExpandPost, votePost } from "../actions"
+import {
+  fetchComments,
+  toggleExpandPost,
+  votePost,
+  setEditedPostContent,
+  setEditPost,
+  deletePost
+} from "../actions"
 import IconButton from "material-ui/IconButton"
 import ExpandMoreIcon from "material-ui-icons/ExpandMore"
 import Collapse from "material-ui/transitions/Collapse"
@@ -52,6 +60,8 @@ class PostItem extends Component {
     this.handleExpandClick = this.handleExpandClick.bind(this)
     this.handleUpVote = this.handleUpVote.bind(this)
     this.handleDownVote = this.handleDownVote.bind(this)
+    this.handleDelete = this.handleDelete.bind(this)
+    this.handleEdit = this.handleEdit.bind(this)
   }
 
   componentDidMount() {
@@ -75,6 +85,23 @@ class PostItem extends Component {
 
   handleDownVote() {
     this.props.dispatch(votePost(this.props.post, "downVote"))
+  }
+
+  handleDelete() {
+    this.props.dispatch(deletePost(this.props.post))
+  }
+
+  handleEdit() {
+    this.props.dispatch(setEditPost(true))
+    this.props.dispatch(
+      setEditedPostContent({
+        id: this.props.post.id,
+        title: this.props.post.title,
+        body: this.props.post.body
+      })
+    )
+    const { category, id } = this.props.post
+    this.props.history.push(`/${category}/${id}`)
   }
 
   render() {
@@ -132,6 +159,8 @@ class PostItem extends Component {
             <Voter
               upVote={this.handleUpVote}
               downVote={this.handleDownVote}
+              delete={this.handleDelete}
+              edit={this.handleEdit}
               score={post.voteScore}
             />
             <div>Comments: {numComments}</div>
@@ -188,4 +217,5 @@ PostItem.propTypes = {
 }
 
 let PI = withStyles(styles)(PostItem)
+PI = withRouter(PI)
 export default connect(mapStateToProps)(PI)

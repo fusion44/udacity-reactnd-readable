@@ -20,7 +20,7 @@ class CommentList extends Component {
     this.props.dispatch(editCommentPopUp(false, "", ""))
   }
 
-  editComment(comment) {
+  handleEditComment(comment) {
     this.props.dispatch(editCommentPopUp(true, comment.id, comment.body))
   }
 
@@ -91,7 +91,7 @@ class CommentList extends Component {
       commentItems.push(
         this.props.comments.map((comment, index) => (
           <Comment
-            onEditComment={this.editComment.bind(this)}
+            onEditComment={this.handleEditComment.bind(this)}
             onDeleteComment={this.handleDeleteComment.bind(this)}
             postId={this.props.postId}
             comment={comment}

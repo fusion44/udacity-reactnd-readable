@@ -86,7 +86,7 @@ function posts(
         postsByCategory: postsByCategory(newPostList)
       }
     case DELETE_POST:
-      newPostList = state.posts.filter(p_existing => {
+      newPostList = state.posts.map(p_existing => {
         // remove the post from the list
         return p_existing.id === action.post.id
           ? {
@@ -95,7 +95,6 @@ function posts(
             }
           : p_existing
       })
-
       return {
         ...state,
         posts: newPostList, // no need to resort the array
